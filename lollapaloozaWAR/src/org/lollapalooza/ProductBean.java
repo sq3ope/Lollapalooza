@@ -4,7 +4,7 @@ public class ProductBean {
 	public enum Mode { Add, Edit }; 
 		
 	private int id;
-	private int test;
+	private int test2;
 	private String name;
 	private String successMessage;
 	private String errorMessage;
