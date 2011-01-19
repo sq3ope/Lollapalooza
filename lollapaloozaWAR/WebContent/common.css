@@ -1,0 +1,4 @@
+@CHARSET "UTF-8";
+
+#mainForm\3A successMessage { color: #00FF00; }
+#mainForm\3A errorMessage { color: #FF0000; }

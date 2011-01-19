@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<faces-config
+    xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    version="1.2">
+	<managed-bean>
+		<managed-bean-name>myBean</managed-bean-name>
+		<managed-bean-class>org.test.MyBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>loginBean</managed-bean-name>
+		<managed-bean-class>org.test.LoginBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<managed-bean>
+		<managed-bean-name>productBean</managed-bean-name>
+		<managed-bean-class>org.lollapalooza.ProductBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+	<navigation-rule>
+		<display-name>login</display-name>
+		<from-view-id>/login.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>login</from-outcome>
+			<to-view-id>/welcome.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>main</display-name>
+		<from-view-id>/main.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>addProduct</from-outcome>
+			<to-view-id>/ProductEdit.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>ProductEdit</display-name>
+		<from-view-id>/ProductEdit.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>cancel</from-outcome>
+			<to-view-id>/main.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>ProductEdit</display-name>
+		<from-view-id>/ProductEdit.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>save</from-outcome>
+			<to-view-id>/ProductEdit.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>ProductEdit</display-name>
+		<from-view-id>/ProductEdit.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>error</from-outcome>
+			<to-view-id>/ProductEdit.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<validator>
+		<validator-id>org.test.validatePassword</validator-id>
+		<validator-class>org.test.validatePassword</validator-class>
+	</validator>
+
+</faces-config>

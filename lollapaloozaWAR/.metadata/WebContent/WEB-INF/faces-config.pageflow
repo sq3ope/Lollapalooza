@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf12942626239742" configfile="/lollapaloozaWAR/WebContent/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="login" x="135" y="36" id="pf12942698027613" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf12942698027614" path="/login.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="welcome" x="372" y="36" id="pf12942698027615" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf12942698027614" path="/welcome.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="main" x="94" y="161" id="pf12943207289066" referenceLink="//@navigationRule.2/@navigationCase.0/@toViewId|" outlinks="pf12943207289067" inlinks="pf12943207289068" path="/main.jsp"/>
+  <nodes xsi:type="pageflow:PFPage" name="ProductEdit" x="312" y="161" id="pf12943207289069" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf12943207289068 pf129432072890610 pf129433192118711" inlinks="pf12943207289067 pf129432072890610 pf129433192118711" path="/ProductEdit.jsp"/>
+  <links id="pf12942698027614" target="pf12942698027615" source="pf12942698027613" outcome="login"/>
+  <links id="pf12943207289067" target="pf12943207289069" source="pf12943207289066" outcome="addProduct"/>
+  <links id="pf12943207289068" target="pf12943207289066" source="pf12943207289069" outcome="cancel"/>
+  <links id="pf129432072890610" target="pf12943207289069" source="pf12943207289069" outcome="save">
+    <bendPoints d1Height="-36" d2Height="-36"/>
+    <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>
+    <bendPoints d1Width="-64" d2Width="-64"/>
+  </links>
+  <links id="pf129433192118711" target="pf12943207289069" source="pf12943207289069" outcome="error">
+    <bendPoints d1Height="-66" d2Height="-66"/>
+    <bendPoints d1Width="-94" d1Height="-66" d2Width="-94" d2Height="-66"/>
+    <bendPoints d1Width="-94" d2Width="-94"/>
+  </links>
+</pageflow:Pageflow>
