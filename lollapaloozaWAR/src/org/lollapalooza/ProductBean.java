@@ -1,15 +1,25 @@
 package org.lollapalooza;
 
+import java.util.List;
+import javax.ejb.EJB;
+import org.lollapalooza.entity.Product;
+
 public class ProductBean {
 	public enum Mode { Add, Edit }; 
 		
+	@EJB org.lollapalooza.eao.LollapaloozaEao eao;
+	
 	private int id;
-	private int test2;
 	private String name;
 	private String successMessage;
 	private String errorMessage;
 	private Mode mode;
+	private Product selectedItem;
 	
+	public void setSelectedItem(Product selectedItem) {
+		this.selectedItem = selectedItem;
+	}
+
 	public ProductBean() {
 		super();
 		clear();
@@ -26,8 +36,9 @@ public class ProductBean {
 	public String save() {
 		try {
 			if (mode == Mode.Add) {
-				// TODO: add to db
-				if (name.equals("xxx")) throw new Exception("Test exception");
+				// add to db
+				eao.addProduct(name);
+				//if (name.equals("xxx")) throw new Exception("Test exception");
 				
 				String addedProductName = name;
 				clear();
@@ -101,5 +112,14 @@ public class ProductBean {
 		this.mode = Mode.Edit;
 		this.id = id;
 		// TODO: fetch data from db
+	}
+	
+	public List getProducts() {
+		return eao.getProducts();
+	}
+	
+	public String edit() {
+		setEditMode(selectedItem.getId());
+		return "edit";
 	}
 }

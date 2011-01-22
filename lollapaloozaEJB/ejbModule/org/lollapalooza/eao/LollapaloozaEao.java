@@ -1,5 +1,7 @@
 package org.lollapalooza.eao;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -36,5 +38,11 @@ public class LollapaloozaEao {
 		product.setName(name);
 		
 		em.persist(product);		
+	}
+	
+	public List getProducts() {
+		Query q = em.createQuery("select co from Product co");
+		q.setMaxResults(100);
+        return q.getResultList();
 	}
 }

@@ -1,11 +1,14 @@
 package org.lollapalooza.service;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import javax.jws.WebService;
 
 import org.lollapalooza.eao.LollapaloozaEao;
+import org.lollapalooza.entity.Product;
 
 /**
  * Session Bean implementation class LollapaloozaBean
@@ -33,4 +36,9 @@ public class LollapaloozaBean implements LollapaloozaInterface {
 		eao.addProduct(name);		
 	}
 
+	public List<Product> getProducts() {
+		//TODO
+		//return eao.getProducts();
+		return null;
+	}
 }

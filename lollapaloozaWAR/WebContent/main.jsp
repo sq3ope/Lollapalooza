@@ -14,6 +14,41 @@
 		<h:commandButton action="addProduct" value="#{msg.addProduct}"></h:commandButton>
 		<h:commandButton action="editProduct" value="#{msg.editProduct}"></h:commandButton>
 		<h:commandButton action="deleteProduct" value="#{msg.deleteProduct}"></h:commandButton>
+		
+		<h:dataTable id="dt1" value="#{productBean.products}" var="item" bgcolor="#F1F1F1" border="10" cellpadding="5" cellspacing="3" width="50%" dir="LTR" frame="hsides" rules="all" summary="This is a JSF code to create dataTable." >
+			<f:facet name="header">
+				<h:outputText value="This is 'dataTable' demo" />
+			</f:facet>
+			
+			<h:column>
+				<h:selectBooleanCheckbox value="false" />
+			</h:column>
+			
+			<h:column>
+				<h:commandButton value="edit" action="#{productBean.edit}"> 
+					<f:setPropertyActionListener target="#{productBean.selectedItem}" value="#{item}" /> 
+				</h:commandButton>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="ID" />
+				</f:facet> 
+				<h:outputText style="" value="#{item.id}" ></h:outputText>
+			</h:column>
+			
+			<h:column>
+				<f:facet name="header">
+					<h:outputText value="Name"/>
+				</f:facet> 
+				<h:outputText value="#{item.name}"></h:outputText>
+			</h:column>
+							
+			<f:facet name="footer">
+				<h:outputText value="The End" />
+			</f:facet> 		
+		</h:dataTable>
+				
 	</h:form>
 </body>
 </f:view>
