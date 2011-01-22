@@ -23,7 +23,7 @@ public class LollapaloozaEao {
      * Default constructor. 
      */
     public LollapaloozaEao() {
-        // TODO Auto-generated constructor stub
+        //
     }
 
     public long countProducts() {
@@ -33,10 +33,14 @@ public class LollapaloozaEao {
         return result;
     }
 
-	public void addProduct(String name) {
+	/*public void addProduct(String name) {
 		Product product =  new Product();
 		product.setName(name);
 		
+		em.persist(product);		
+	}*/
+	
+	public void addProduct(Product product) {
 		em.persist(product);		
 	}
 	
@@ -44,5 +48,30 @@ public class LollapaloozaEao {
 		Query q = em.createQuery("select co from Product co");
 		q.setMaxResults(100);
         return q.getResultList();
+	}
+
+	/*public void alterProduct(int id, String name) {
+		/*em.getTransaction().begin();
+		try {
+			Product product = em.find(Product.class, id);
+			product.setName(name);
+			em.getTransaction().commit();
+		}
+		finally {
+			em.getTransaction().rollback();
+		}*//*
+		
+		Product product = em.find(Product.class, id);
+		product.setName(name);
+		em.merge(product);
+	}*/
+	
+	public void alterProduct(Product product) {
+		em.merge(product);
+	}
+
+	public void deleteProduct(Product product) {
+		Product attachedProduct = em.find(Product.class, product.getId());
+		em.remove(attachedProduct);
 	}
 }

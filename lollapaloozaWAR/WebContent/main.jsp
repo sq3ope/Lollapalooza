@@ -11,9 +11,8 @@
 </head>
 <body>
 	<h:form>
-		<h:commandButton action="addProduct" value="#{msg.addProduct}"></h:commandButton>
-		<h:commandButton action="editProduct" value="#{msg.editProduct}"></h:commandButton>
-		<h:commandButton action="deleteProduct" value="#{msg.deleteProduct}"></h:commandButton>
+		<h:commandButton action="#{productBean.add}" value="#{msg.addNewProduct}"></h:commandButton>
+		<h:commandButton action="#{productBean.deleteSelected}" value="#{msg.deleteSelectedProducts}"></h:commandButton>
 		
 		<h:dataTable id="dt1" value="#{productBean.products}" var="item" bgcolor="#F1F1F1" border="10" cellpadding="5" cellspacing="3" width="50%" dir="LTR" frame="hsides" rules="all" summary="This is a JSF code to create dataTable." >
 			<f:facet name="header">
@@ -21,12 +20,14 @@
 			</f:facet>
 			
 			<h:column>
-				<h:selectBooleanCheckbox value="false" />
+				<h:selectBooleanCheckbox value="#{item.selected}" />
 			</h:column>
 			
 			<h:column>
-				<h:commandButton value="edit" action="#{productBean.edit}"> 
-					<f:setPropertyActionListener target="#{productBean.selectedItem}" value="#{item}" /> 
+				<h:commandButton value="#{msg.edit}" action="#{productBean.edit}"> 
+					<f:setPropertyActionListener 
+						target="#{productBean.selectedProduct}" 
+						value="#{item}" /> 
 				</h:commandButton>
 			</h:column>
 			

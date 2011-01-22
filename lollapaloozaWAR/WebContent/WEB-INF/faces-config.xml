@@ -60,6 +60,22 @@
 			<to-view-id>/ProductEdit.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
+	<navigation-rule>
+		<display-name>main</display-name>
+		<from-view-id>/main.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>editProduct</from-outcome>
+			<to-view-id>/ProductEdit.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
+	<navigation-rule>
+		<display-name>main</display-name>
+		<from-view-id>/main.jsp</from-view-id>
+		<navigation-case>
+			<from-outcome>deleteProduct</from-outcome>
+			<to-view-id>/main.jsp</to-view-id>
+		</navigation-case>
+	</navigation-rule>
 	<validator>
 		<validator-id>org.test.validatePassword</validator-id>
 		<validator-class>org.test.validatePassword</validator-class>

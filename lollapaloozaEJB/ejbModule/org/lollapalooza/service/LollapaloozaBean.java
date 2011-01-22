@@ -23,7 +23,7 @@ public class LollapaloozaBean implements LollapaloozaInterface {
      * Default constructor. 
      */
     public LollapaloozaBean() {
-        // TODO Auto-generated constructor stub
+        //
     }
 
 	@Override
@@ -33,11 +33,12 @@ public class LollapaloozaBean implements LollapaloozaInterface {
 
 	@Override
 	public void addProduct(String name) {
-		eao.addProduct(name);		
+		//TODO addProduct() EAO
+		//eao.addProduct(name);		
 	}
 
 	public List<Product> getProducts() {
-		//TODO
+		//TODO getProducts() EAO
 		//return eao.getProducts();
 		return null;
 	}

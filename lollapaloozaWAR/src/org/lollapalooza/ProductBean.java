@@ -9,15 +9,14 @@ public class ProductBean {
 		
 	@EJB org.lollapalooza.eao.LollapaloozaEao eao;
 	
-	private int id;
-	private String name;
 	private String successMessage;
 	private String errorMessage;
 	private Mode mode;
-	private Product selectedItem;
+	private Product product;
+	private List products;
 	
-	public void setSelectedItem(Product selectedItem) {
-		this.selectedItem = selectedItem;
+	public void setSelectedProduct(Product selectedProduct) {
+		this.product = selectedProduct;
 	}
 
 	public ProductBean() {
@@ -26,29 +25,30 @@ public class ProductBean {
 	}	
 	
 	public String getName() {
-		return name;
+		return product.getName();
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		product.setName(name);
 	}
 	
 	public String save() {
 		try {
 			if (mode == Mode.Add) {
-				// add to db
-				eao.addProduct(name);
+				// add to db				
+				eao.addProduct(product);
 				//if (name.equals("xxx")) throw new Exception("Test exception");
 				
-				String addedProductName = name;
+				String addedProductName = product.getName();
 				clear();
 				setSuccessMessage("Product " + addedProductName + " added.");
 			}
 			else if (mode == Mode.Edit) {
-				// TODO: edit record in db
-				if (name.equals("xxx")) throw new Exception("Test exception");
+				// edit record in db
+				eao.alterProduct(product);
+				//if (name.equals("xxx")) throw new Exception("Test exception");
 				
-				String addedProductName = name;
+				String addedProductName = product.getName();
 				clear();
 				setSuccessMessage("Product " + addedProductName + " updated.");
 			}
@@ -69,11 +69,10 @@ public class ProductBean {
 	}
 
 	public void clear() {
-		name = null;
+		Product product =  new Product();
+		product.setId(-1);
 		successMessage = null;
 		errorMessage = null;
-		id = -1;
-		this.mode = Mode.Add;
 	}
 
 	public String getSuccessMessage() {
@@ -95,7 +94,7 @@ public class ProductBean {
 	}
 
 	public int getId() {
-		return id;
+		return product.getId();
 	}
 
 	public Mode getMode() {
@@ -103,23 +102,39 @@ public class ProductBean {
 	}
 	
 	void setAddMode() {
-		clear();
 		this.mode = Mode.Add;
 	}
 	
-	void setEditMode(int id) {
-		clear();
+	void setEditMode() {
 		this.mode = Mode.Edit;
-		this.id = id;
-		// TODO: fetch data from db
 	}
 	
 	public List getProducts() {
-		return eao.getProducts();
+		products = eao.getProducts(); 
+		return products; 
+	}
+	
+	public String add() {
+		clear();
+		setAddMode();
+		return "addProduct";
 	}
 	
 	public String edit() {
-		setEditMode(selectedItem.getId());
-		return "edit";
+		clear();
+		setEditMode();
+		return "editProduct";
+	}
+	
+	public String deleteSelected() {
+		if (products != null) {
+			for (Object product : products) {
+				if (((Product)product).isSelected()) {
+					eao.deleteProduct((Product)product);
+				}
+			}
+		}
+		
+		return "deleteProduct";
 	}
 }
