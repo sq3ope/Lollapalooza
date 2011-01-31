@@ -14,8 +14,10 @@
 	<h:form id="mainForm">	
 		<h:outputText id="successMessage" value="#{productBean.successMessage}"/>
 		<h:outputText id="errorMessage" value="#{productBean.errorMessage}"/>
+		
 		<h:outputLabel rendered="true" value="#{msg.name}"></h:outputLabel>
 		<h:inputText value="#{productBean.name}" tabindex="0"></h:inputText>
+		
 		<h:commandButton action="#{productBean.save}" value="#{msg.save}"></h:commandButton>
 		<h:commandButton action="#{productBean.cancel}" value="#{msg.cancel}"></h:commandButton>
 	</h:form>

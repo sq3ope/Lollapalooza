@@ -15,15 +15,15 @@ public class ProductBean {
 	private Product product;
 	private List products;
 	
-	public void setSelectedProduct(Product selectedProduct) {
-		this.product = selectedProduct;
-	}
-
 	public ProductBean() {
 		super();
 		clear();
-	}	
+	}
 	
+	public void setSelectedProduct(Product selectedProduct) {
+		this.product = selectedProduct;
+	}
+			
 	public String getName() {
 		return product.getName();
 	}
@@ -55,21 +55,22 @@ public class ProductBean {
 			else
 				throw new Exception("Incorrect mode");			
 						
-			return "save";
+			return "return";
 		}
 		catch (Exception e) {
 			setErrorMessage("Error encountered: " + e.getMessage());
-			return "error";
+			return "refresh";
 		}
 	}
 	
 	public String cancel() {
 		clear();
-		return "cancel";
+		setErrorMessage("Edit canceled.");
+		return "return";
 	}
 
 	public void clear() {
-		Product product =  new Product();
+		product =  new Product();
 		product.setId(-1);
 		successMessage = null;
 		errorMessage = null;
@@ -117,11 +118,10 @@ public class ProductBean {
 	public String add() {
 		clear();
 		setAddMode();
-		return "addProduct";
+		return "editProduct";
 	}
 	
 	public String edit() {
-		clear();
 		setEditMode();
 		return "editProduct";
 	}
@@ -135,6 +135,6 @@ public class ProductBean {
 			}
 		}
 		
-		return "deleteProduct";
+		return "refresh";
 	}
 }
