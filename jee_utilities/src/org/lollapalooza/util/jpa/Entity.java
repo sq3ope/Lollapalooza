@@ -3,6 +3,10 @@ package org.lollapalooza.util.jpa;
 public abstract class Entity {
 	private boolean selected;
 	
+	public Entity() {
+		selected = false;
+	}
+	
 	public boolean isSelected() {
 		return selected;
 	}

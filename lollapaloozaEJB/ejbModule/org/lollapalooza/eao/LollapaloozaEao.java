@@ -71,7 +71,7 @@ public class LollapaloozaEao {
 	}
 
 	public void deleteProduct(Product product) {
-		Product attachedProduct = em.find(Product.class, product.getId());
-		em.remove(attachedProduct);
+		//Product attachedProduct = em.find(Product.class, product.getId());
+		em.remove(em.merge(product));
 	}
 }

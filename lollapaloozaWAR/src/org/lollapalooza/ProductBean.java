@@ -20,8 +20,27 @@ public class ProductBean {
 		clear();
 	}
 	
+	public void clear() {
+		product =  new Product();
+		clearMessages();
+	}
+	
+	public void clearMessages() {
+		successMessage = null;
+		errorMessage = null;
+	}
+	
 	public void setSelectedProduct(Product selectedProduct) {
 		this.product = selectedProduct;
+	}
+	
+	public String getSuccessMessage() {
+		return successMessage;
+	}
+	
+	public void setSuccessMessage(String successMessage) {
+		this.successMessage = successMessage;
+		this.errorMessage = null;
 	}
 			
 	public String getName() {
@@ -30,6 +49,28 @@ public class ProductBean {
 
 	public void setName(String name) {
 		product.setName(name);
+	}
+	
+	public String getErrorMessage() {
+		return errorMessage;
+	}	
+
+	public void setErrorMessage(String errorMessage) {
+		this.errorMessage = errorMessage;
+		this.successMessage = null;
+	}
+	
+	void setAddMode() {
+		this.mode = Mode.Add;
+	}
+	
+	void setEditMode() {
+		this.mode = Mode.Edit;
+	}
+	
+	public List getProducts() {
+		products = eao.getProducts(); 
+		return products; 
 	}
 	
 	public String save() {
@@ -67,54 +108,8 @@ public class ProductBean {
 		clear();
 		setErrorMessage("Edit canceled.");
 		return "return";
-	}
-
-	public void clear() {
-		product =  new Product();
-		product.setId(-1);
-		successMessage = null;
-		errorMessage = null;
-	}
-
-	public String getSuccessMessage() {
-		return successMessage;
-	}
-
-	public String getErrorMessage() {
-		return errorMessage;
-	}
-
-	public void setSuccessMessage(String successMessage) {
-		this.successMessage = successMessage;
-		this.errorMessage = null;
-	}
-
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-		this.successMessage = null;
-	}
-
-	public int getId() {
-		return product.getId();
-	}
-
-	public Mode getMode() {
-		return mode;
-	}
-	
-	void setAddMode() {
-		this.mode = Mode.Add;
-	}
-	
-	void setEditMode() {
-		this.mode = Mode.Edit;
-	}
-	
-	public List getProducts() {
-		products = eao.getProducts(); 
-		return products; 
-	}
-	
+	}		
+		
 	public String add() {
 		clear();
 		setAddMode();
@@ -122,6 +117,7 @@ public class ProductBean {
 	}
 	
 	public String edit() {
+		clearMessages();
 		setEditMode();
 		return "editProduct";
 	}

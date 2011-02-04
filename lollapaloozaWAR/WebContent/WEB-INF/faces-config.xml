@@ -42,6 +42,7 @@
 		<navigation-case>
 			<from-outcome>return</from-outcome>
 			<to-view-id>/main.jsp</to-view-id>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
