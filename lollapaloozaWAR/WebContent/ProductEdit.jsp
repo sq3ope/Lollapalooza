@@ -11,7 +11,9 @@
 	<link rel="stylesheet" type="text/css" href="common.css" />
 </head>
 <body>
-	<h:form id="mainForm">	
+	<h:form id="mainForm">
+		<h:inputHidden id="transactionId" value="#{productBean.transactionId}" />
+			
 		<h:outputText id="successMessage" value="#{productBean.successMessage}"/>
 		<h:outputText id="errorMessage" value="#{productBean.errorMessage}"/>
 		

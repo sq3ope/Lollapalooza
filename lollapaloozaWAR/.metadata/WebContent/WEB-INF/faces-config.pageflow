@@ -6,7 +6,7 @@
   <nodes xsi:type="pageflow:PFPage" name="ProductEdit" x="504" y="161" id="pf12943207289069" referenceLink="//@navigationRule.3/@navigationCase.0/@toViewId|" outlinks="pf12943207289068 pf129432072890610" inlinks="pf12943207289067 pf129432072890610" path="/ProductEdit.jsp"/>
   <links id="pf12942698027614" target="pf12942698027615" source="pf12942698027613" outcome="login"/>
   <links id="pf12943207289067" target="pf12943207289069" source="pf12943207289066" outcome="editProduct"/>
-  <links id="pf12943207289068" target="pf12943207289066" source="pf12943207289069" outcome="return" redirect="true"/>
+  <links id="pf12943207289068" target="pf12943207289066" source="pf12943207289069" outcome="return"/>
   <links id="pf129432072890610" target="pf12943207289069" source="pf12943207289069" outcome="refresh">
     <bendPoints d1Height="-36" d2Height="-36"/>
     <bendPoints d1Width="-64" d1Height="-36" d2Width="-64" d2Height="-36"/>

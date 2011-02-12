@@ -3,30 +3,11 @@
 #mainForm\3A successMessage { color: #00FF00; }
 #mainForm\3A errorMessage { color: #FF0000; }
 
-th {
-	color: #EDF6F9;
-	font-weight: bold;
-	background: #036;
-	text-align: center;
-	letter-spacing: 1px;
-	padding: 6px;	
-	cursor: pointer;
-	_cursor: hand;
-}
-
-td {
-	background: #cad9ea;
-	color: #000;
-	padding: 6px;	
-}
-
-table {
-	background: #fff;
-	color: #000;
-	border: 1px solid #069;
-	margin: 0 0 0 11px;	
-	border-spacing: 1px;
-	width: 758px;
+div {
+	margin-left: auto;
+	margin-right: auto;
+	width:758px;
+	margin-bottom: 3px;
 }
 
 input {
@@ -34,9 +15,49 @@ input {
 	background: url('img/btn_face.png');
 	cursor: pointer;
 	_cursor: hand;
+	margin-left: 0px;
+	margin-right: 10px;
 }
 
 input:hover {
 	border: 1px solid #006; 
 	background: url('img/btn_hover_face.png');
+}
+
+input:active {
+	border: 1px solid #006; 
+	background: url('../img/btn_hover_face.png');
+	cursor: pointer;
+	_cursor: hand;
+	position: relative;
+	left: 1px;
+	top: 1px;
+}
+
+table {
+	background:#fff;
+	color:#000;
+	border:1px solid #069;
+	margin: 0 0 0 11px;	
+	border-spacing:1px;
+	width:758px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+th {
+	color: #EDF6F9;
+	font-weight: bold;
+	background: #036;
+	text-align: center;
+	letter-spacing:1px;
+	padding:6px;	
+	cursor: pointer;
+	_cursor: hand;
+}
+
+td {
+	background:#cad9ea;
+	color:#000;
+	padding:6px;	
 }

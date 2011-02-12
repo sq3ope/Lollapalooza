@@ -12,13 +12,19 @@
 </head>
 <body>
 	<h:form id="mainForm">
-		<h:outputText id="successMessage" value="#{productBean.successMessage}"/>
-		<h:outputText id="errorMessage" value="#{productBean.errorMessage}"/>
+		<h:inputHidden id="transactionId" value="#{productBean.transactionId}" />
+	
+		<div>
+			<h:outputText id="successMessage" value="#{productBean.successMessage}"/>
+			<h:outputText id="errorMessage" value="#{productBean.errorMessage}"/>
+		</div>
 		
-		<h:commandButton action="#{productBean.add}" value="#{msg.addNewProduct}"></h:commandButton>
-		<h:commandButton action="#{productBean.deleteSelected}" value="#{msg.deleteSelectedProducts}"></h:commandButton>
+		<div>
+			<h:commandButton action="#{productBean.add}" value="#{msg.addNewProduct}"></h:commandButton>
+			<h:commandButton action="#{productBean.deleteSelected}" value="#{msg.deleteSelectedProducts}"></h:commandButton>
+		</div>
 		
-	<h:dataTable id="dt1" value="#{productBean.products}" var="item" >		
+		<h:dataTable id="dt1" value="#{productBean.products}" var="item" >		
 			<h:column>
 				<h:selectBooleanCheckbox value="#{item.selected}" />
 			</h:column>
