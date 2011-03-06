@@ -1,69 +1,99 @@
 package org.lollapalooza;
 
+import java.io.IOException;
 import java.util.List;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import org.lollapalooza.entity.Product;
 import org.lollapalooza.util.transaction.*;
 import org.lollapalooza.util.string.CSVStringList;
 
-public class ProductBean {
-	public enum Mode { Add, Edit }; 
-		
-	@EJB org.lollapalooza.eao.LollapaloozaEao eao;
+import com.sun.enterprise.security.jauth.callback.PrivateKeyCallback.Request;
 
-	private NonIdempotent nonIdempotentController;
-	private String transactionId;
-	
+public class ProductBean {
 	private String successMessage;
 	private String errorMessage;
-	private Mode mode;
 	private Product product;
 	private List products;
+	private Integer productId;
+	
+	@EJB org.lollapalooza.eao.LollapaloozaEao eao;
 	
 	public ProductBean() throws Exception {
 		super();
-		nonIdempotentController = 
-			NonIdempotentTransactionControllerFactory.create("UUID-based");
-		transactionId = nonIdempotentController.getNewTransactionId();
-		clear();
+	
+		// parse GET parameters
+		
+		HttpServletRequest request=(HttpServletRequest)FacesContext.getCurrentInstance()
+			.getExternalContext().getRequest();
+		String productIdS= request.getParameter("productId");
+		if (productIdS != null)
+			productId = Integer.parseInt(productIdS);
+		else
+			productId = null;
 	}
 	
-	public void clear() {
-		product =  new Product();
-		clearMessages();
+	private void getProduct() {
+		if (product == null) {
+			if (productId != null)
+				product = eao.getProductById(productId);
+			else
+				product = new Product();
+		}
 	}
-	
+		
 	public void clearMessages() {
 		successMessage = null;
 		errorMessage = null;
 	}
 	
-	public void setTransactionId(String transactionId) {
-		this.transactionId = transactionId;
-	}
-
-	public String getTransactionId() {
-		return transactionId;
-	}
-	
-	public void setSelectedProduct(Product selectedProduct) {
+	/*public void setSelectedProduct(Product selectedProduct) {
 		this.product = selectedProduct;
-	}
+	}*/
 	
 	public String getSuccessMessage() {
 		return successMessage;
 	}
 	
 	public void setSuccessMessage(String successMessage) {
-		this.successMessage = successMessage;
-		this.errorMessage = null;
+		//this.successMessage = successMessage;
+		//this.errorMessage = null;
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_INFO, 
+				errorMessage, errorMessage);
+        FacesContext.getCurrentInstance().addMessage(null, fm);
+	}
+	
+	public Integer getId() {
+		getProduct();
+		return product.getId();
+	}
+
+	public void setId(Integer id) {
+		getProduct();
+		product.setId(id);
+	}
+	
+	public String getDeleted() {
+		getProduct();
+		return product.getIsDeleted();
+	}
+
+	public void setDeleted(String deleted) {
+		getProduct();
+		product.setIsDeleted(deleted);
 	}
 			
 	public String getName() {
+		getProduct();
 		return product.getName();
 	}
 
 	public void setName(String name) {
+		getProduct();
 		product.setName(name);
 	}
 	
@@ -72,18 +102,13 @@ public class ProductBean {
 	}	
 
 	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
-		this.successMessage = null;
+		//this.errorMessage = errorMessage;
+		//this.successMessage = null;
+		FacesMessage fm = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+				errorMessage, errorMessage);
+        FacesContext.getCurrentInstance().addMessage(null, fm);
 	}
-	
-	void setAddMode() {
-		this.mode = Mode.Add;
-	}
-	
-	void setEditMode() {
-		this.mode = Mode.Edit;
-	}
-	
+		
 	public List getProducts() {
 		products = eao.getProducts(); 
 		return products; 
@@ -91,87 +116,70 @@ public class ProductBean {
 	
 	public String save() {
 		try {
-			if (mode == Mode.Add) {
-				if (!nonIdempotentController.isCommited(transactionId)) {
-						// add to db				
-						eao.addProduct(product);
-						//if (name.equals("xxx")) throw new Exception("Test exception");
-						nonIdempotentController.commit(transactionId);						
-				}
+			if (product.getIsDeleted().equals("Y")) { // add
+				eao.addProduct(product);
 				
 				String addedProductName = product.getName();
-				clear();
 				setSuccessMessage("Product " + addedProductName + " added.");
 			}
-			else if (mode == Mode.Edit) {
-				if (!nonIdempotentController.isCommited(transactionId)) {
-					// edit record in db
-					eao.alterProduct(product);
-					//if (name.equals("xxx")) throw new Exception("Test exception");
-					nonIdempotentController.commit(transactionId);
-				}
-				
+			else if (product.getIsDeleted().equals("N")) { //edit
+				eao.alterProduct(product);
+								
 				String addedProductName = product.getName();
-				clear();
 				setSuccessMessage("Product " + addedProductName + " updated.");
 			}
 			else
 				throw new Exception("Incorrect mode");			
 						
-			transactionId = nonIdempotentController.getNewTransactionId();
 			return "return";
 		}
 		catch (Exception e) {
 			setErrorMessage("Error encountered: " + e.getMessage());
-			return "refresh";
+			return "error";
 		}
 	}
 	
 	public String cancel() {
-		clear();
 		setErrorMessage("Edit canceled.");
-		transactionId = nonIdempotentController.getNewTransactionId();
 		return "return";
 	}		
 		
 	public String add() {
-		clear();
-		setAddMode();
-		transactionId = nonIdempotentController.getNewTransactionId();
+		try {
+			Integer id = eao.getNewProductId();
+			FacesContext.getCurrentInstance().getExternalContext().
+				redirect("ProductEdit.jsf?productId=" + id.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		return "editProduct";
 	}
 	
 	public String edit() {
 		clearMessages();
-		setEditMode();
-		transactionId = nonIdempotentController.getNewTransactionId();
 		return "editProduct";
 	}
 	
 	public String deleteSelected() {
-		if (!nonIdempotentController.isCommited(transactionId)) {
-			CSVStringList list = new CSVStringList();
-			
-			if (products != null) {
-				for (Object product : products) {
-					if (((Product)product).isSelected()) {
-						eao.deleteProduct((Product)product);
-						list.add("'" + ((Product)product).getName() + "'");
-					}
-				}
-			}
-			
-			nonIdempotentController.commit(transactionId);			
+		CSVStringList list = new CSVStringList();
 		
-			if (list.size() > 0) {
-				if (list.size() == 1)
-					setSuccessMessage("Product " + list.toString() + " deleted.");
-				else
-					setSuccessMessage("Products: " + list.toString() + " deleted.");
+		if (products != null) {
+			for (Object product : products) {
+				if (((Product)product).isSelected()) {
+					eao.deleteProduct((Product)product);
+					list.add("'" + ((Product)product).getName() + "'");
+				}
 			}
 		}
 		
-		transactionId = nonIdempotentController.getNewTransactionId();
-		return "refresh";
+	
+		if (list.size() > 0) {
+			if (list.size() == 1)
+				setSuccessMessage("Product " + list.toString() + " deleted.");
+			else
+				setSuccessMessage("Products: " + list.toString() + " deleted.");
+		}
+				
+		return "delete";
 	}
 }

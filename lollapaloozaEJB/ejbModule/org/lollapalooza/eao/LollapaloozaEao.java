@@ -32,6 +32,14 @@ public class LollapaloozaEao {
         result = (Long)q.getSingleResult();
         return result;
     }
+    
+    public int getNewProductId() {
+    	Product product = new Product();
+    	product.setIsDeleted("Y");
+    	em.persist(product);
+    	em.flush();
+    	return product.getId();
+    }
 
 	/*public void addProduct(String name) {
 		Product product =  new Product();
@@ -41,11 +49,13 @@ public class LollapaloozaEao {
 	}*/
 	
 	public void addProduct(Product product) {
-		em.persist(product);		
+		//em.persist(product);
+		product.setIsDeleted("N");
+		em.merge(product);
 	}
 	
 	public List getProducts() {
-		Query q = em.createQuery("select co from Product co");
+		Query q = em.createQuery("select co from Product co where co.isDeleted = 'N'");
 		q.setMaxResults(100);
         return q.getResultList();
 	}
@@ -69,9 +79,15 @@ public class LollapaloozaEao {
 	public void alterProduct(Product product) {
 		em.merge(product);
 	}
+	
+	public Product getProductById(int id) {
+		return em.find(Product.class, id);
+	}
 
 	public void deleteProduct(Product product) {
 		//Product attachedProduct = em.find(Product.class, product.getId());
-		em.remove(em.merge(product));
+		//em.remove(em.merge(product));
+		product.setIsDeleted("Y");
+		em.merge(product);
 	}
 }

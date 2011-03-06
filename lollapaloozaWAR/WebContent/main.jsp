@@ -1,3 +1,10 @@
+<% 
+response.setHeader("Cache-Control","no-cache");
+response.addHeader("Cache-Control","no-store");
+response.setDateHeader("Expires", 0);
+response.setHeader ("Pragma","no-cache"); 
+%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="f"  uri="http://java.sun.com/jsf/core"%>
 <%@ taglib prefix="h"  uri="http://java.sun.com/jsf/html"%>
@@ -12,11 +19,12 @@
 </head>
 <body>
 	<h:form id="mainForm">
-		<h:inputHidden id="transactionId" value="#{productBean.transactionId}" />
-	
 		<div>
 			<h:outputText id="successMessage" value="#{productBean.successMessage}"/>
 			<h:outputText id="errorMessage" value="#{productBean.errorMessage}"/>
+			<h:messages showDetail="true" showSummary="true" 
+				errorClass="errorMessage" infoClass="infoMessage" 
+				layout="table"/>
 		</div>
 		
 		<div>
@@ -30,11 +38,18 @@
 			</h:column>
 			
 			<h:column>
-				<h:commandButton value="#{msg.edit}" action="#{productBean.edit}"> 
+				<%  
+				/*<h:commandButton value="#{msg.edit}" action="#{productBean.edit}"> 
 					<f:setPropertyActionListener 
 						target="#{productBean.selectedProduct}" 
 						value="#{item}" /> 
-				</h:commandButton>
+				</h:commandButton>*/ 
+				%>
+				
+				<h:outputLink value="ProductEdit.jsf">
+					<f:param name="productId" value="#{item.id}" />
+					<h:outputText value="#{msg.edit}"/>
+				</h:outputLink>
 			</h:column>
 			
 			<h:column>

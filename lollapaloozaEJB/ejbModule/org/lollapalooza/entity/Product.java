@@ -2,6 +2,7 @@ package org.lollapalooza.entity;
 
 import java.io.Serializable;
 import javax.persistence.*;
+import java.sql.Timestamp;
 
 
 /**
@@ -17,6 +18,12 @@ public class Product extends org.lollapalooza.util.jpa.Entity implements Seriali
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 
+	@Column(name="DELETE_TIME")
+	private Timestamp deleteTime;
+
+	@Column(name="IS_DELETED")
+	private String isDeleted;
+
 	private String name;
 
     public Product() {
@@ -28,6 +35,22 @@ public class Product extends org.lollapalooza.util.jpa.Entity implements Seriali
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Timestamp getDeleteTime() {
+		return this.deleteTime;
+	}
+
+	public void setDeleteTime(Timestamp deleteTime) {
+		this.deleteTime = deleteTime;
+	}
+
+	public String getIsDeleted() {
+		return this.isDeleted;
+	}
+
+	public void setIsDeleted(String isDeleted) {
+		this.isDeleted = isDeleted;
 	}
 
 	public String getName() {

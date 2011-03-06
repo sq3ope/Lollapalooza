@@ -18,7 +18,7 @@
 	<managed-bean>
 		<managed-bean-name>productBean</managed-bean-name>
 		<managed-bean-class>org.lollapalooza.ProductBean</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
+		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	<navigation-rule>
 		<display-name>login</display-name>
@@ -42,13 +42,14 @@
 		<navigation-case>
 			<from-outcome>return</from-outcome>
 			<to-view-id>/main.jsp</to-view-id>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	<navigation-rule>
 		<display-name>ProductEdit</display-name>
 		<from-view-id>/ProductEdit.jsp</from-view-id>
 		<navigation-case>
-			<from-outcome>refresh</from-outcome>
+			<from-outcome>error</from-outcome>
 			<to-view-id>/ProductEdit.jsp</to-view-id>
 		</navigation-case>
 	</navigation-rule>
@@ -56,13 +57,16 @@
 		<display-name>main</display-name>
 		<from-view-id>/main.jsp</from-view-id>
 		<navigation-case>
-			<from-outcome>refresh</from-outcome>
+			<from-outcome>delete</from-outcome>
 			<to-view-id>/main.jsp</to-view-id>
+			<redirect />
 		</navigation-case>
 	</navigation-rule>
 	<validator>
 		<validator-id>org.test.validatePassword</validator-id>
 		<validator-class>org.test.validatePassword</validator-class>
 	</validator>
-
+	<lifecycle>
+		<phase-listener>org.lollapalooza.MultiPageMessagesSupport</phase-listener>
+	</lifecycle>
 </faces-config>
